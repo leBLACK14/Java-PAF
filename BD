@@ -1,0 +1,12 @@
+Create database JavaBD;
+
+Use JavaBD;
+
+CREATE TABLE empregados (
+    ID_EMP CHAR(6) NOT NULL, -- Identificação única do empregado
+    NOME VARCHAR(60) NOT NULL, -- Primeiro nome e sobrenome
+    SALARIO NUMERIC (9,2) NOT NULL, -- Salário anual
+    DATA_ADIM DATE NOT NULL, -- Data de entrada na empresa
+    NUM_ANOS_EMPRESA NUMERIC (9,2) NOT NULL, -- Salário anua
+    NOVO_SALARIO NUMERIC (9,2) NOT NULL -- Cargo do empregado
+ );
