@@ -420,11 +420,14 @@ public class PAP_estudar implements ActionListener{
 	    			Statement stmt=con.createStatement();  
 		    		String sql = "USE JavaBD;";
 		    		stmt.execute(sql);
-		    		stmt.execute("INSERT INTO empregados VALUES ('"+nome+"')");
+		    		stmt.execute("INSERT INTO empregados (NOME, SALARIO, DATA_DE_ENTRADA, DATA_DE_ATUAL, NUM_ANOS_EMPRESA, NOVO_SALARIO) VALUES ('"+nome+"','"+salario+"','"+dataentrada+"','"+dataatual+"','"+anosempresa+"','"+salariott+"')");
+		    		//stmt.execute("INSERT INTO empregados (NOME) VALUES ('"+nome+"')");
+		    		//stmt.execute("INSERT INTO empregados (SALARIO) VALUES ('"+salario+"')");
+		    		//stmt.execute("INSERT INTO empregados (DATA_DE_ENTRADA) VALUES ('"+dataatual+"')");
+		    		//stmt.execute("INSERT INTO empregados (DATA_DE_ATUAL) VALUES ('"+dataentrada+"')");
+		    		//stmt.execute("INSERT INTO empregados (NUM_ANOS_EMPRESA) VALUES ('"+anosempresa+"')");
+		    		//stmt.execute("INSERT INTO empregados (NOVO_SALARIO) VALUES ('"+salariott+"')");
 		    		con.close();  
-		    		
-		    		//String sql = "USE calcSalario_Rafael_Tavares;" + "INSERT INTO empregados (Nome, Salário_Actual, Anos_Empresa, Aumento_Salário) "
-		      	//	+ "VALUES ('"+nome+"', "+salario+", '"+dataatual+"',  '"+dataentrada+"', "+anosempresa+", "+salariott+")";
 		     
 		    		
 		    		System.out.println("Ligação Efectuada com sucesso e dados adicionados.");
