@@ -3,10 +3,13 @@ Create database JavaBD;
 Use JavaBD;
 
 CREATE TABLE empregados (
+    ID VARCHAR(50) NOT NULL,
     NOME VARCHAR(50) NOT NULL, -- Primeiro nome e sobrenome
-    SALARIO VARCHAR(6) NOT NULL, -- Salário anual
-    DATA_DE_ENTRADA VARCHAR(10) NOT NULL, -- Data de entrada na empresa
-    DATA_DE_ATUAL VARCHAR(10) NOT NULL, -- Data atual
-    NUM_ANOS_EMPRESA VARCHAR(2) NOT NULL, -- Salário anua
-    NOVO_SALARIO VARCHAR(6) NOT NULL -- Cargo do empregado
+    SALARIO VARCHAR(50) NOT NULL, -- Salário anual
+    DATA_DE_ENTRADA VARCHAR(50) NOT NULL, -- Data de entrada na empresa
+    DATA_DE_ATUAL VARCHAR(50) NOT NULL, -- Data atual
+    NUM_ANOS_EMPRESA VARCHAR(50) NOT NULL, -- Salário anua
+    NOVO_SALARIO VARCHAR(50) NOT NULL -- Cargo do empregado
  );
+ 
+ 
