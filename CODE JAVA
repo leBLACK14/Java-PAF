@@ -281,7 +281,12 @@ public class PAP_estudar implements ActionListener{
 		
 		public void calcularsalario() {
 		
-				if(anosempresa == 0) {lbReceberSalario.setText("O seu salário será de : "+tfSalario.getText());}
+				if(anosempresa == 0) {
+				Double salario;
+				salario=Double.parseDouble(tfSalario.getText());
+				lbReceberSalario.setText("O seu salário será de : "+tfSalario.getText());
+				lbReceberNovoSalario.setText(""+salario);
+				}
 				Double Salariott,salario,aumento;
 				salario=Double.parseDouble(tfSalario.getText());
 				if(anosempresa >=1 && anosempresa <5) {
@@ -289,6 +294,7 @@ public class PAP_estudar implements ActionListener{
 					Salariott=salario+aumento;
 					lbReceberSalario.setText("O seu salário será de : ");
 					lbReceberNovoSalario.setText(""+Salariott);
+					
 				}
 				if(anosempresa >=5 && anosempresa <10) {
 					aumento=salario*0.05;
@@ -405,11 +411,11 @@ public class PAP_estudar implements ActionListener{
 				}
 				String nome,dataatual,dataentrada,salario,salariott,anosempresa;
 		        nome=(lbBDNomeReceber.getText());
-		        salario=(lbBDNomeReceber.getText());
-		        dataatual=(lbBDNomeReceber.getText());
-		        dataentrada=(lbBDNomeReceber.getText());
-		        anosempresa=(lbBDNomeReceber.getText());
-		        salariott=(lbBDNomeReceber.getText());
+		        salario=(lbBDSalariosAtualReceber.getText());
+		        dataatual=(lbBDDataAtualReceber.getText());
+		        dataentrada=(lbBDDataEntradaReceber.getText());
+		        anosempresa=(lbBDNumeroAnosEmpresaReceber.getText());
+		        salariott=(lbBDNovoSalarioReceber.getText());
 		        
 		        
 		        try{  
