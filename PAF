@@ -1,0 +1,502 @@
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JLabel;//para funcionar o sql
+import java.sql.Connection;//permitir a ligacao
+import java.sql.DriverManager;//para fazer a ligacao ao ficheio dentro da livraria
+import java.sql.ResultSet;
+import java.sql.SQLException;////controlo dos erros do sql
+
+import javax.swing.JOptionPane;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import java.sql.Statement;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.Box;
+import javax.swing.JSeparator;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
+public class PAF2 implements ActionListener{
+
+	private static final String Salariott = null;
+	private JFrame frame;
+	private static Connection connection;
+	private JTextField tfNome;
+	private JTextField tfSalario;
+	private JTextField tfData;
+	private JButton btnCalcular;
+	private JButton btnLimpar;
+	private JLabel lbTitulo;
+	private JLabel lbNovoSalario2022;
+	private JLabel lbReceberDataAtual;
+	private JLabel lbReceberAnosEmpresa;
+	private JLabel lbNumeroAnosEmpresa;
+	private JLabel lbDataAtual;
+	private JLabel lbDataEntrada;
+	private JLabel lbSalarioAtual;
+	private JLabel lbNome;
+	private JLabel lb€;
+	private JLabel lbddmmyyyy;
+	private JLabel lbReceberNovoSalario;
+	private JLabel lbID;
+	
+	String id,nome,bddataentrada,bddataatual;
+	String IDQuery,NOMEQuery,SALARIOQuery,DATA_DE_ENTRADAQuery,DATA_DE_ATUALQuery,NUM_ANOS_EMPRESAQuery,NOVO_SALARIOQuery;
+	int anosempresa;
+	int anoatual,mesatual,diaatual;
+	int anoentrada,mesentrada,diaentrada;
+	Date data=new Date(); 
+	SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+	SimpleDateFormat formatadatabd = new SimpleDateFormat("dd/MM/yyyy");
+	private JButton btnInserirBD;
+	private JTextField tfID;
+	private JLabel lbIDBD;
+	private JLabel lbNome_1;
+	private JLabel lbSalarioAtual_1;
+	private JLabel lbDataEntrada_1;
+	private JLabel lbDataAtual_1;
+	private JLabel lbNumeroAnosEmpresa_1;
+	private JLabel lbNovoSalario2022_1;
+	private JLabel lbIDBDget;
+	private JLabel lbNomeBDget;
+	private JLabel lbSalarioBDget;
+	private JLabel lbDataBDget;
+	private JLabel lbDataAtualBDget;
+	private JLabel lbAnosEmpresaBDget;
+	private JLabel lbNovoSalarioBDget;
+	private JTextField tfProcurarID;
+	private JButton btnProcurarID;
+	private JLabel lbProcurarID;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String args[]){  	
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					PAF2 window = new PAF2();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public PAF2() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setResizable(false);
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+		frame.setBounds(100, 100, 461, 551);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		lbNome = new JLabel("Nome:");
+		lbNome.setBounds(27, 80, 46, 14);
+		frame.getContentPane().add(lbNome);
+		
+		lbSalarioAtual = new JLabel("Sal\u00E1rio aual:");
+		lbSalarioAtual.setBounds(27, 105, 86, 14);
+		frame.getContentPane().add(lbSalarioAtual);
+		
+		lbDataEntrada = new JLabel("Data de entrada na Empresa:");
+		lbDataEntrada.setBounds(27, 130, 188, 14);
+		frame.getContentPane().add(lbDataEntrada);
+		
+		lbDataAtual = new JLabel("Data Atual:");
+		lbDataAtual.setBounds(27, 155, 86, 14);
+		frame.getContentPane().add(lbDataAtual);
+		
+		lbNumeroAnosEmpresa = new JLabel("N\u00FAmero de anos na Empresa:");
+		lbNumeroAnosEmpresa.setBounds(27, 180, 188, 14);
+		frame.getContentPane().add(lbNumeroAnosEmpresa);
+		
+		lbReceberAnosEmpresa = new JLabel("");
+		lbReceberAnosEmpresa.setBounds(209, 180, 120, 14);
+		frame.getContentPane().add(lbReceberAnosEmpresa);
+		
+		lbReceberDataAtual = new JLabel("");
+		lbReceberDataAtual.setBounds(209, 155, 120, 14);
+		frame.getContentPane().add(lbReceberDataAtual);
+		
+		lbNovoSalario2022 = new JLabel("Novo Sal\u00E1rio 2022:");
+		lbNovoSalario2022.setBounds(27, 205, 120, 14);
+		frame.getContentPane().add(lbNovoSalario2022);
+		
+		tfNome = new JTextField();
+		tfNome.setBounds(209, 77, 120, 20);
+		frame.getContentPane().add(tfNome);
+		tfNome.setColumns(10);
+		
+		tfSalario = new JTextField();
+		tfSalario.setBounds(209, 102, 120, 20);
+		frame.getContentPane().add(tfSalario);
+		tfSalario.setColumns(10);
+		
+		tfData = new JTextField();
+		tfData.setBounds(209, 127, 120, 20);
+		frame.getContentPane().add(tfData);
+		tfData.setColumns(10);
+		
+		lbTitulo = new JLabel("Calculadora de Salário 2022");
+		lbTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lbTitulo.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		lbTitulo.setBounds(0, 11, 454, 37);
+		frame.getContentPane().add(lbTitulo);
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.setBounds(27, 241, 89, 23);
+		frame.getContentPane().add(btnLimpar);
+		
+		btnCalcular = new JButton("Calcular");
+		btnCalcular.setBounds(141, 241, 89, 23);
+		frame.getContentPane().add(btnCalcular);
+		
+		btnInserirBD = new JButton("Inserir na Base de Dados");
+		btnInserirBD.setBounds(251, 241, 180, 23);
+		frame.getContentPane().add(btnInserirBD);
+		
+		lb€ = new JLabel("\u20AC");
+		lb€.setBounds(330, 105, 46, 14);
+		frame.getContentPane().add(lb€);
+		
+		lbddmmyyyy = new JLabel("dd/mm/yyyy");
+		lbddmmyyyy.setBounds(330, 130, 78, 14);
+		frame.getContentPane().add(lbddmmyyyy);
+		
+		lbReceberNovoSalario = new JLabel("");
+		lbReceberNovoSalario.setBounds(209, 205, 46, 14);
+		frame.getContentPane().add(lbReceberNovoSalario);
+		
+		lbID = new JLabel("ID:");
+		lbID.setBounds(27, 59, 46, 14);
+		frame.getContentPane().add(lbID);
+		
+		tfID = new JTextField();
+		tfID.setColumns(10);
+		tfID.setBounds(209, 56, 120, 20);
+		frame.getContentPane().add(tfID);
+		
+		lbIDBD = new JLabel("ID:");
+		lbIDBD.setBounds(27, 275, 46, 14);
+		frame.getContentPane().add(lbIDBD);
+		
+		lbNome_1 = new JLabel("Nome:");
+		lbNome_1.setBounds(27, 300, 46, 14);
+		frame.getContentPane().add(lbNome_1);
+		
+		lbSalarioAtual_1 = new JLabel("Sal\u00E1rio aual:");
+		lbSalarioAtual_1.setBounds(27, 325, 86, 14);
+		frame.getContentPane().add(lbSalarioAtual_1);
+		
+		lbDataEntrada_1 = new JLabel("Data de entrada na Empresa:");
+		lbDataEntrada_1.setBounds(27, 350, 188, 14);
+		frame.getContentPane().add(lbDataEntrada_1);
+		
+		lbDataAtual_1 = new JLabel("Data Atual:");
+		lbDataAtual_1.setBounds(27, 375, 86, 14);
+		frame.getContentPane().add(lbDataAtual_1);
+		
+		lbNumeroAnosEmpresa_1 = new JLabel("N\u00FAmero de anos na Empresa:");
+		lbNumeroAnosEmpresa_1.setBounds(27, 400, 188, 14);
+		frame.getContentPane().add(lbNumeroAnosEmpresa_1);
+		
+		lbNovoSalario2022_1 = new JLabel("Novo Sal\u00E1rio 2022:");
+		lbNovoSalario2022_1.setBounds(27, 425, 120, 14);
+		frame.getContentPane().add(lbNovoSalario2022_1);
+		
+		lbIDBDget = new JLabel("");
+		lbIDBDget.setBounds(209, 275, 120, 14);
+		frame.getContentPane().add(lbIDBDget);
+		
+		lbNomeBDget = new JLabel("");
+		lbNomeBDget.setBounds(209, 300, 120, 14);
+		frame.getContentPane().add(lbNomeBDget);
+		
+		lbSalarioBDget = new JLabel("");
+		lbSalarioBDget.setBounds(209, 325, 120, 14);
+		frame.getContentPane().add(lbSalarioBDget);
+		
+		lbDataBDget = new JLabel("");
+		lbDataBDget.setBounds(209, 350, 120, 14);
+		frame.getContentPane().add(lbDataBDget);
+		
+		lbDataAtualBDget = new JLabel("");
+		lbDataAtualBDget.setBounds(209, 375, 120, 14);
+		frame.getContentPane().add(lbDataAtualBDget);
+		
+		lbAnosEmpresaBDget = new JLabel("");
+		lbAnosEmpresaBDget.setBounds(209, 400, 120, 14);
+		frame.getContentPane().add(lbAnosEmpresaBDget);
+		
+		lbNovoSalarioBDget = new JLabel("");
+		lbNovoSalarioBDget.setBounds(209, 425, 120, 14);
+		frame.getContentPane().add(lbNovoSalarioBDget);
+		
+		btnProcurarID = new JButton("Procurar");
+		btnProcurarID.setBounds(319, 463, 89, 23);
+		frame.getContentPane().add(btnProcurarID);
+		
+		lbProcurarID = new JLabel("Procurar na Base de Dados:");
+		lbProcurarID.setBounds(27, 467, 173, 14);
+		frame.getContentPane().add(lbProcurarID);
+		
+		tfProcurarID = new JTextField();
+		tfProcurarID.setColumns(10);
+		tfProcurarID.setBounds(210, 464, 63, 20);
+		frame.getContentPane().add(tfProcurarID);
+		
+		tfNome.addActionListener(this);
+		tfData.addActionListener(this);
+		tfSalario.addActionListener(this);
+		btnLimpar.addActionListener(this);
+		btnCalcular.addActionListener(this);
+		btnInserirBD.addActionListener(this);
+		tfID.addActionListener(this);
+		btnProcurarID.addActionListener(this);
+		tfProcurarID.addActionListener(this);
+		
+		dataatual();
+		
+		}
+		
+		public void calcularsalario() {
+		
+				if(anosempresa == 0) {
+				Double salario;
+				salario=Double.parseDouble(tfSalario.getText());
+				lbReceberNovoSalario.setText(""+salario);
+				}
+				Double Salariott,salario,aumento;
+				salario=Double.parseDouble(tfSalario.getText());
+				if(anosempresa >=1 && anosempresa <5) {
+					aumento=salario*0.015;
+					Salariott=salario+aumento;
+					lbReceberNovoSalario.setText(""+Salariott);
+					
+				}
+				if(anosempresa >=5 && anosempresa <10) {
+					aumento=salario*0.05;
+					Salariott=salario+aumento;
+					lbReceberNovoSalario.setText(""+Salariott);
+				}
+				if(anosempresa >=10 && anosempresa <20) {
+					aumento=salario*0.10;
+					Salariott=salario+aumento;
+					lbReceberNovoSalario.setText(""+Salariott);
+				}
+				if(anosempresa >=20) {
+					aumento=salario*0.15;
+					Salariott=salario+aumento;
+					lbReceberNovoSalario.setText(""+Salariott);
+				}
+			
+			}
+	
+		public void dataatual() {
+			Calendar Calendario = new GregorianCalendar();
+			
+			anoatual=Calendario.get(Calendar.YEAR);
+			mesatual=Calendario.get(Calendar.MONTH);
+			diaatual=Calendario.get(Calendar.DAY_OF_MONTH);
+			
+			if(mesatual+1<10) {
+				lbReceberDataAtual.setText(diaatual+"/0"+(mesatual+1)+"/"+anoatual);
+			}
+			else {
+				lbReceberDataAtual.setText(diaatual+"/"+(mesatual+1)+"/"+anoatual);
+			}
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource()==tfID) {
+				id=(tfID.getText());
+				tfNome.requestFocus();
+				}
+			if(e.getSource()==tfNome) {
+				nome=(tfNome.getText());
+				lbTitulo.setText("Calculadora de Salário de "+nome+" 2022");
+				tfSalario.requestFocus();
+				}
+			if(e.getSource()==tfSalario) {
+				tfData.requestFocus();
+				}
+			if(e.getSource()==tfData) {
+				btnCalcular.requestFocus();
+				}
+			if(e.getSource()==btnCalcular){
+				String dataentrada;
+				dataentrada=tfData.getText();
+				String setdataentrada[] = dataentrada.split("/");
+				int diaentrada,mesentrada,anoentrada;
+				diaentrada=Integer.parseInt(setdataentrada[0]);
+				mesentrada=Integer.parseInt(setdataentrada[1]);
+				anoentrada=Integer.parseInt(setdataentrada[2]);
+				String strdataatual;
+				strdataatual=lbReceberDataAtual.getText();
+				
+				dataatual();
+				
+				JOptionPane.showMessageDialog(lbReceberNovoSalario, "Entrou na empresa em: "+diaentrada+"/"+mesentrada+"/"+anoentrada);
+				if(anoatual>anoentrada && mesentrada<=mesatual+1 && diaentrada<=diaatual) 
+				{
+					anosempresa=anoatual-anoentrada;
+					lbReceberAnosEmpresa.setText(Integer.toString(anosempresa));
+				}
+				else if(anoatual==anoentrada){
+					anosempresa=anoatual-anoentrada;
+					lbReceberAnosEmpresa.setText(Integer.toString(anosempresa));
+				}
+				else 
+				{
+					anosempresa=anoatual-anoentrada-1;
+					lbReceberAnosEmpresa.setText(Integer.toString(anosempresa));
+				}
+				calcularsalario();
+				btnInserirBD.requestFocus();
+			}
+			
+			if(e.getSource()==btnLimpar){
+				lbTitulo.setText("Calculadora de Salario");
+				tfID.setText("");
+				tfNome.setText("");
+				tfSalario.setText("");
+				tfData.setText("");
+				lbReceberNovoSalario.setText("");
+				lbReceberAnosEmpresa.setText("");
+				tfNome.requestFocus();
+			}
+		
+			if(e.getSource()==btnInserirBD){
+				JOptionPane.showMessageDialog(tfData,"Estes dados seram enviados para a Base de Dados");
+				try {
+					Connection con=DriverManager.getConnection(  
+							"jdbc:mysql://localhost:3306/JavaBD","root","");
+										//ip:porta/nome da bd,pessoa,pass
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				String nome,dataatual,dataentrada,salario,salariott,anosempresa,id;
+		        nome=(tfNome.getText());
+		        salario=(tfSalario.getText());
+		        dataatual=(lbReceberDataAtual.getText());
+		        dataentrada=(tfData.getText());
+		        anosempresa=(lbReceberAnosEmpresa.getText());
+		        salariott=(lbReceberNovoSalario.getText());
+		        id=(tfID.getText());
+		        
+		        try{  
+		    		Class.forName("com.mysql.jdbc.Driver");  
+		    		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaBD","root","");  
+		    		//here sonoo is database name, root is username and password is nothing 
+	    			JOptionPane.showMessageDialog(tfData,"Adicionado á Base de Dados");
+	    			Statement stmt=con.createStatement();  
+		    		String sql = "USE JavaBD;";
+		    		stmt.execute(sql);
+		    		stmt.execute("INSERT INTO empregados (ID, NOME, SALARIO, DATA_DE_ENTRADA, DATA_DE_ATUAL, NUM_ANOS_EMPRESA, NOVO_SALARIO) VALUES ('"+id+"','"+nome+"','"+salario+"','"+dataentrada+"','"+dataatual+"','"+anosempresa+"','"+salariott+"')");
+		    		con.close();  
+		     
+		    		
+		    		System.out.println("Ligação Efectuada com sucesso e dados adicionados.");
+		    		}catch(SQLException ee) {
+		    			System.out.println("SQLException: "+ee.getMessage());
+		    			System.out.println("SQLException: "+ee.getSQLState());
+		    			System.out.println("SQLException: "+ee.getErrorCode());
+		    			
+		    		}
+		    		catch(Exception ex) {
+		    			System.out.println("Não foi possível ligar à base de dados.");
+		    			System.out.println("SQLException: "+ex.getMessage());
+		    		}
+		        tfProcurarID.requestFocus();
+				}
+		        if(e.getSource()==btnProcurarID){
+					JOptionPane.showMessageDialog(tfData,"Estes dados seram trazidos da Base de Dados");
+					String nome,dataatual,dataentrada,salario,salariott,anosempresa,id;
+			        nome=(lbNomeBDget.getText());
+			        salario=(lbSalarioBDget.getText());
+			        dataatual=(lbDataAtualBDget.getText());
+			        dataentrada=(lbDataBDget.getText());
+			        anosempresa=(lbAnosEmpresaBDget.getText());
+			        salariott=(lbNovoSalarioBDget.getText());
+			        id=tfProcurarID.getText();
+			        try {
+						Connection con=DriverManager.getConnection(  
+								"jdbc:mysql://localhost:3306/JavaBD","root","");
+											//ip:porta/nome da bd,pessoa,pass
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+			        try{  
+			        	
+			    		Class.forName("com.mysql.jdbc.Driver");  
+			    		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaBD","root","");  
+		    			JOptionPane.showMessageDialog(tfData,"A sua pesquisa foi feita com sucesso."); //popup
+		    			Statement stmt=con.createStatement();  
+			    		String sql = "USE JavaBD;";
+			    		stmt.execute(sql);
+			    		ResultSet arroz = stmt.executeQuery("SELECT * FROM `empregados` WHERE ID = '"+id+"';");
+			    		if(arroz.next()){
+			    			IDQuery = arroz.getString(1);
+			    			NOMEQuery = arroz.getString(2);
+			    			SALARIOQuery = arroz.getString(3);
+			    			DATA_DE_ENTRADAQuery = arroz.getString(4);
+			    			DATA_DE_ATUALQuery = arroz.getString(5);
+			    			NUM_ANOS_EMPRESAQuery = arroz.getString(6);
+			    			NOVO_SALARIOQuery = arroz.getString(7);
+			    		}
+			    		System.out.println( IDQuery + "|" +NOMEQuery+ "|" +SALARIOQuery+ "|" +DATA_DE_ENTRADAQuery+ "|" +DATA_DE_ATUALQuery+ "|" +NUM_ANOS_EMPRESAQuery+ "|" +NOVO_SALARIOQuery+ "");
+			    		lbNovoSalarioBDget.setText(NOVO_SALARIOQuery);
+			    		lbAnosEmpresaBDget.setText(NUM_ANOS_EMPRESAQuery);
+			    		lbDataAtualBDget.setText(DATA_DE_ATUALQuery);
+			    		lbDataBDget.setText(DATA_DE_ENTRADAQuery);
+			    		lbSalarioBDget.setText(SALARIOQuery);
+			    		lbNomeBDget.setText(NOMEQuery);
+			    		lbIDBDget.setText(IDQuery);
+			    		con.close();  
+			    
+			    		System.out.println("Ligação Efectuada com sucesso e pesquisa feita.");
+			    		}catch(SQLException ee) {
+			    			System.out.println("SQLException: "+ee.getMessage());
+			    			System.out.println("SQLException: "+ee.getSQLState());
+			    			System.out.println("SQLException: "+ee.getErrorCode());
+			    			
+			    		}
+			    		catch(Exception ex) {
+			    			System.out.println("Não foi possível ligar à base de dados nem fazer a pesquisa.");
+			    			System.out.println("SQLException: "+ex.getMessage());
+			    	}
+				
+			}
+		}
+	}
