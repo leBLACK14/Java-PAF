@@ -70,19 +70,46 @@ public class PAP_estudar implements ActionListener{
 	private JLabel lbBDNumeroAnosEmpresaReceber;
 	private JLabel lbBDNovoSalarioReceber;
 	private JLabel lbReceberNovoSalario;
+	private JTextField tfApanharID;
+	private JButton btnVerRegisto;
 	
-	String nome,bddataentrada,bddataatual;
+	String IDQuery, NOMEQuery, SALARIOQuery,DATA_DE_ENTRADAQuery,DATA_DE_ATUALQuery,NUM_ANOS_EMPRESAQuery,NOVO_SALARIOQuery;
+	String nome,ID,bddataentrada,bddataatual;
 	int anosempresa;
+	
 	int anoatual,mesatual,diaatual;
 	int anoentrada,mesentrada,diaentrada;
 	Date data=new Date(); 
 	SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
 	SimpleDateFormat formatadatabd = new SimpleDateFormat("dd/MM/yyyy");
+	
 	private JPanel EUmaLinha_1;
 	private JPanel EUmaLinha_2;
 	private JPanel EUmaLinha_3;
 	private JLabel lbTitulo2;
 	private JButton btnInserirBD;
+	private JTextField tfID;
+	private JLabel lblID;
+	private JPanel EUmaLinha_1_1;
+	private JLabel lblBDIDReceber;
+	private JLabel lblBDID;
+	private JLabel lblBDIDProcurar;
+	private JLabel lblDados;
+	private JLabel lbTitulo3;
+	private JLabel lblBDID_1;
+	private JLabel lblMostrarID;
+	private JLabel lbBDNome_1;
+	private JLabel lbBDSalariosAtual_1;
+	private JLabel lbBDDataEntrada_1;
+	private JLabel lbBDDataAtual_1;
+	private JLabel lbBDNumeroAnosEmpresa_1;
+	private JLabel lbBDNovoSalario_1;
+	private JLabel lblMostrarNOME;
+	private JLabel lblMostrarSalario;
+	private JLabel lblMostrarDataEntrada;
+	private JLabel lblMostrarDataAtual;
+	private JLabel lblMostrarNumEmpresa;
+	private JLabel lblMostrarNovoSalario;
 	/**
 	 * Launch the application.
 	 */
@@ -113,58 +140,58 @@ public class PAP_estudar implements ActionListener{
 		frame = new JFrame();
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(100, 149, 237));
-		frame.setBounds(100, 100, 804, 370);
+		frame.setBounds(100, 100, 1118, 370);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		lbNome = new JLabel("Nome:");
-		lbNome.setBounds(27, 80, 46, 14);
+		lbNome.setBounds(26, 94, 46, 14);
 		frame.getContentPane().add(lbNome);
 		
 		lbSalarioAtual = new JLabel("Sal\u00E1rio aual:");
-		lbSalarioAtual.setBounds(27, 105, 86, 14);
+		lbSalarioAtual.setBounds(26, 119, 86, 14);
 		frame.getContentPane().add(lbSalarioAtual);
 		
 		lbDataEntrada = new JLabel("Data de entrada na Empresa:");
-		lbDataEntrada.setBounds(27, 130, 188, 14);
+		lbDataEntrada.setBounds(26, 144, 188, 14);
 		frame.getContentPane().add(lbDataEntrada);
 		
 		lbDataAtual = new JLabel("Data Atual:");
-		lbDataAtual.setBounds(27, 155, 86, 14);
+		lbDataAtual.setBounds(26, 169, 86, 14);
 		frame.getContentPane().add(lbDataAtual);
 		
 		lbNumeroAnosEmpresa = new JLabel("N\u00FAmero de anos na Empresa:");
-		lbNumeroAnosEmpresa.setBounds(27, 180, 188, 14);
+		lbNumeroAnosEmpresa.setBounds(26, 194, 188, 14);
 		frame.getContentPane().add(lbNumeroAnosEmpresa);
 		
 		lbReceberAnosEmpresa = new JLabel("");
-		lbReceberAnosEmpresa.setBounds(209, 180, 120, 14);
+		lbReceberAnosEmpresa.setBounds(208, 194, 120, 14);
 		frame.getContentPane().add(lbReceberAnosEmpresa);
 		
 		lbReceberDataAtual = new JLabel("");
-		lbReceberDataAtual.setBounds(209, 155, 120, 14);
+		lbReceberDataAtual.setBounds(208, 169, 120, 14);
 		frame.getContentPane().add(lbReceberDataAtual);
 		
 		lbReceberSalario = new JLabel("");
-		lbReceberSalario.setBounds(209, 205, 141, 14);
+		lbReceberSalario.setBounds(208, 219, 141, 14);
 		frame.getContentPane().add(lbReceberSalario);
 		
 		lbNovoSalario2022 = new JLabel("Novo Sal\u00E1rio 2022:");
-		lbNovoSalario2022.setBounds(27, 205, 120, 14);
+		lbNovoSalario2022.setBounds(26, 219, 120, 14);
 		frame.getContentPane().add(lbNovoSalario2022);
 		
 		tfNome = new JTextField();
-		tfNome.setBounds(209, 77, 120, 20);
+		tfNome.setBounds(208, 91, 120, 20);
 		frame.getContentPane().add(tfNome);
 		tfNome.setColumns(10);
 		
 		tfSalario = new JTextField();
-		tfSalario.setBounds(209, 102, 120, 20);
+		tfSalario.setBounds(208, 116, 120, 20);
 		frame.getContentPane().add(tfSalario);
 		tfSalario.setColumns(10);
 		
 		tfData = new JTextField();
-		tfData.setBounds(209, 127, 120, 20);
+		tfData.setBounds(208, 141, 120, 20);
 		frame.getContentPane().add(tfData);
 		tfData.setColumns(10);
 		
@@ -195,10 +222,10 @@ public class PAP_estudar implements ActionListener{
 		frame.getContentPane().add(EUmaLinha_2);
 		
 		EUmaLinha_3 = new JPanel();
-		EUmaLinha_3.setBounds(0, 329, 788, 2);
+		EUmaLinha_3.setBounds(0, 328, 1154, 3);
 		frame.getContentPane().add(EUmaLinha_3);
 		
-		lbTitulo2 = new JLabel("Base de Dados ");
+		lbTitulo2 = new JLabel("Inserir na Base de Dados ");
 		lbTitulo2.setHorizontalAlignment(SwingConstants.CENTER);
 		lbTitulo2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
 		lbTitulo2.setBounds(452, 11, 336, 37);
@@ -209,64 +236,165 @@ public class PAP_estudar implements ActionListener{
 		frame.getContentPane().add(btnInserirBD);
 		
 		lb€ = new JLabel("\u20AC");
-		lb€.setBounds(330, 105, 46, 14);
+		lb€.setBounds(329, 119, 46, 14);
 		frame.getContentPane().add(lb€);
 		
 		lbddmmyyyy = new JLabel("dd/mm/yyyy");
-		lbddmmyyyy.setBounds(330, 130, 78, 14);
+		lbddmmyyyy.setBounds(329, 144, 78, 14);
 		frame.getContentPane().add(lbddmmyyyy);
 		
 		lbBDNome = new JLabel("Nome:");
-		lbBDNome.setBounds(477, 80, 46, 14);
+		lbBDNome.setBounds(477, 94, 86, 14);
 		frame.getContentPane().add(lbBDNome);
 		
 		lbBDSalariosAtual = new JLabel("Sal\u00E1rio aual:");
-		lbBDSalariosAtual.setBounds(477, 105, 86, 14);
+		lbBDSalariosAtual.setBounds(477, 119, 154, 14);
 		frame.getContentPane().add(lbBDSalariosAtual);
 		
 		lbBDDataEntrada = new JLabel("Data de entrada na Empresa:");
-		lbBDDataEntrada.setBounds(477, 130, 188, 14);
+		lbBDDataEntrada.setBounds(477, 144, 188, 14);
 		frame.getContentPane().add(lbBDDataEntrada);
 		
 		lbBDDataAtual = new JLabel("Data Atual:");
-		lbBDDataAtual.setBounds(477, 155, 86, 14);
+		lbBDDataAtual.setBounds(477, 169, 154, 14);
 		frame.getContentPane().add(lbBDDataAtual);
 		
 		lbBDNumeroAnosEmpresa = new JLabel("N\u00FAmero de anos na Empresa:");
-		lbBDNumeroAnosEmpresa.setBounds(477, 180, 188, 14);
+		lbBDNumeroAnosEmpresa.setBounds(477, 194, 188, 14);
 		frame.getContentPane().add(lbBDNumeroAnosEmpresa);
 		
 		lbBDNovoSalario = new JLabel("Novo Sal\u00E1rio 2022:");
-		lbBDNovoSalario.setBounds(477, 205, 120, 14);
+		lbBDNovoSalario.setBounds(477, 219, 146, 14);
 		frame.getContentPane().add(lbBDNovoSalario);
 		
 		lbBDNomeReceber = new JLabel("");
-		lbBDNomeReceber.setBounds(652, 80, 86, 14);
+		lbBDNomeReceber.setBounds(652, 94, 124, 14);
 		frame.getContentPane().add(lbBDNomeReceber);
 		
 		lbBDSalariosAtualReceber = new JLabel("");
-		lbBDSalariosAtualReceber.setBounds(652, 105, 86, 14);
+		lbBDSalariosAtualReceber.setBounds(652, 119, 124, 14);
 		frame.getContentPane().add(lbBDSalariosAtualReceber);
 		
 		lbBDDataEntradaReceber = new JLabel("");
-		lbBDDataEntradaReceber.setBounds(652, 130, 124, 14);
+		lbBDDataEntradaReceber.setBounds(652, 144, 124, 14);
 		frame.getContentPane().add(lbBDDataEntradaReceber);
 		
 		lbBDDataAtualReceber = new JLabel("");
-		lbBDDataAtualReceber.setBounds(652, 155, 86, 14);
+		lbBDDataAtualReceber.setBounds(652, 169, 124, 14);
 		frame.getContentPane().add(lbBDDataAtualReceber);
 		
 		lbBDNumeroAnosEmpresaReceber = new JLabel("");
-		lbBDNumeroAnosEmpresaReceber.setBounds(652, 180, 124, 14);
+		lbBDNumeroAnosEmpresaReceber.setBounds(652, 194, 124, 14);
 		frame.getContentPane().add(lbBDNumeroAnosEmpresaReceber);
 		
 		lbBDNovoSalarioReceber = new JLabel("");
-		lbBDNovoSalarioReceber.setBounds(652, 205, 120, 14);
+		lbBDNovoSalarioReceber.setBounds(652, 219, 124, 14);
 		frame.getContentPane().add(lbBDNovoSalarioReceber);
 		
 		lbReceberNovoSalario = new JLabel("");
-		lbReceberNovoSalario.setBounds(340, 205, 46, 14);
+		lbReceberNovoSalario.setBounds(339, 219, 46, 14);
 		frame.getContentPane().add(lbReceberNovoSalario);
+		
+		EUmaLinha_1_1 = new JPanel();
+		EUmaLinha_1_1.setBounds(1100, 0, 2, 341);
+		frame.getContentPane().add(EUmaLinha_1_1);
+		
+		btnVerRegisto = new JButton("Ver Registo");
+		btnVerRegisto.setBounds(894, 281, 112, 23);
+		frame.getContentPane().add(btnVerRegisto);
+		
+		tfApanharID = new JTextField();
+		tfApanharID.setBounds(949, 45, 133, 20);
+		frame.getContentPane().add(tfApanharID);
+		tfApanharID.setColumns(10);
+		
+		tfID = new JTextField();
+		tfID.setBounds(208, 65, 120, 20);
+		frame.getContentPane().add(tfID);
+		tfID.setColumns(10);
+		
+		lblID = new JLabel("ID:");
+		lblID.setBounds(26, 69, 46, 14);
+		frame.getContentPane().add(lblID);
+		
+		lblBDIDReceber = new JLabel("");
+		lblBDIDReceber.setBounds(652, 69, 112, 14);
+		frame.getContentPane().add(lblBDIDReceber);
+		
+		lblBDID = new JLabel("ID:");
+		lblBDID.setBounds(477, 69, 168, 14);
+		frame.getContentPane().add(lblBDID);
+		
+		lblBDIDProcurar = new JLabel("Insira o seu ID:");
+		lblBDIDProcurar.setBounds(807, 48, 120, 14);
+		frame.getContentPane().add(lblBDIDProcurar);
+		
+		lblDados = new JLabel("As seus dados s\u00E3o:");
+		lblDados.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDados.setBounds(798, 76, 292, 14);
+		frame.getContentPane().add(lblDados);
+		
+		lbTitulo3 = new JLabel("Ver dados da Base de Dados ");
+		lbTitulo3.setHorizontalAlignment(SwingConstants.CENTER);
+		lbTitulo3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		lbTitulo3.setBounds(786, 11, 316, 37);
+		frame.getContentPane().add(lbTitulo3);
+		
+		lblBDID_1 = new JLabel("ID:");
+		lblBDID_1.setBounds(808, 97, 168, 14);
+		frame.getContentPane().add(lblBDID_1);
+		
+		lblMostrarID = new JLabel("");
+		lblMostrarID.setBounds(978, 94, 112, 14);
+		frame.getContentPane().add(lblMostrarID);
+		
+		lbBDNome_1 = new JLabel("Nome:");
+		lbBDNome_1.setBounds(807, 119, 86, 14);
+		frame.getContentPane().add(lbBDNome_1);
+		
+		lbBDSalariosAtual_1 = new JLabel("Sal\u00E1rio aual:");
+		lbBDSalariosAtual_1.setBounds(808, 144, 154, 14);
+		frame.getContentPane().add(lbBDSalariosAtual_1);
+		
+		lbBDDataEntrada_1 = new JLabel("Data de entrada na Empresa:");
+		lbBDDataEntrada_1.setBounds(808, 169, 180, 14);
+		frame.getContentPane().add(lbBDDataEntrada_1);
+		
+		lbBDDataAtual_1 = new JLabel("Data Atual:");
+		lbBDDataAtual_1.setBounds(808, 194, 154, 14);
+		frame.getContentPane().add(lbBDDataAtual_1);
+		
+		lbBDNumeroAnosEmpresa_1 = new JLabel("N\u00FAmero de anos na Empresa:");
+		lbBDNumeroAnosEmpresa_1.setBounds(808, 219, 168, 14);
+		frame.getContentPane().add(lbBDNumeroAnosEmpresa_1);
+		
+		lbBDNovoSalario_1 = new JLabel("Novo Sal\u00E1rio 2022:");
+		lbBDNovoSalario_1.setBounds(807, 245, 146, 14);
+		frame.getContentPane().add(lbBDNovoSalario_1);
+		
+		lblMostrarNOME = new JLabel("");
+		lblMostrarNOME.setBounds(978, 119, 112, 14);
+		frame.getContentPane().add(lblMostrarNOME);
+		
+		lblMostrarSalario = new JLabel("");
+		lblMostrarSalario.setBounds(978, 144, 112, 14);
+		frame.getContentPane().add(lblMostrarSalario);
+		
+		lblMostrarDataEntrada = new JLabel("");
+		lblMostrarDataEntrada.setBounds(978, 169, 112, 14);
+		frame.getContentPane().add(lblMostrarDataEntrada);
+		
+		lblMostrarDataAtual = new JLabel("");
+		lblMostrarDataAtual.setBounds(978, 194, 112, 14);
+		frame.getContentPane().add(lblMostrarDataAtual);
+		
+		lblMostrarNumEmpresa = new JLabel("");
+		lblMostrarNumEmpresa.setBounds(978, 219, 112, 14);
+		frame.getContentPane().add(lblMostrarNumEmpresa);
+		
+		lblMostrarNovoSalario = new JLabel("");
+		lblMostrarNovoSalario.setBounds(978, 245, 112, 14);
+		frame.getContentPane().add(lblMostrarNovoSalario);
 		
 		tfNome.addActionListener(this);
 		tfData.addActionListener(this);
@@ -274,6 +402,9 @@ public class PAP_estudar implements ActionListener{
 		btnLimpar.addActionListener(this);
 		btnCalcular.addActionListener(this);
 		btnInserirBD.addActionListener(this);
+		tfApanharID.addActionListener(this);
+		btnVerRegisto.addActionListener(this);
+		tfID.addActionListener(this);
 		
 		dataatual();
 		
@@ -334,6 +465,10 @@ public class PAP_estudar implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			if(e.getSource()==tfID) {
+				ID=(tfID.getText());
+				tfNome.requestFocus();
+				}
 			if(e.getSource()==tfNome) {
 				nome=(tfNome.getText());
 				lbTitulo.setText("Calculadora de Salário de "+nome+" 2022");
@@ -358,7 +493,7 @@ public class PAP_estudar implements ActionListener{
 				
 				dataatual();
 				
-				JOptionPane.showMessageDialog(lbReceberSalario, "Entrou na empresa em: "+diaentrada+"/"+mesentrada+"/"+anoentrada);
+				JOptionPane.showMessageDialog(lbReceberSalario, "Entrou na empresa em: "+diaentrada+"/"+mesentrada+"/"+anoentrada);//popup
 				if(anoatual>anoentrada && mesentrada<=mesatual+1 && diaentrada<=diaatual) 
 				{
 					anosempresa=anoatual-anoentrada;
@@ -374,12 +509,14 @@ public class PAP_estudar implements ActionListener{
 					lbReceberAnosEmpresa.setText(Integer.toString(anosempresa));
 				}
 				calcularsalario();
+				
 				lbBDNomeReceber.setText(tfNome.getText());
 				lbBDSalariosAtualReceber.setText(tfSalario.getText());
 				lbBDDataEntradaReceber.setText(tfData.getText());
 				lbBDDataAtualReceber.setText(lbReceberDataAtual.getText());
 				lbBDNumeroAnosEmpresaReceber.setText(lbReceberAnosEmpresa.getText());
 				lbBDNovoSalarioReceber.setText(lbReceberNovoSalario.getText());
+				lblBDIDReceber.setText(tfID.getText());
 				btnInserirBD.requestFocus();
 			}
 			
@@ -396,11 +533,20 @@ public class PAP_estudar implements ActionListener{
 				lbBDDataAtualReceber.setText("");
 				lbBDNumeroAnosEmpresaReceber.setText("");
 				lbBDNovoSalarioReceber.setText("");
+				tfID.setText("");
 				tfNome.requestFocus();
 			}
 		
 			if(e.getSource()==btnInserirBD){
 				JOptionPane.showMessageDialog(EUmaLinha,"Estes dados seram enviados para a Base de Dados");
+				String nome,dataatual,dataentrada,salario,salariott,anosempresa,id;
+		        nome=(lbBDNomeReceber.getText());
+		        salario=(lbBDSalariosAtualReceber.getText());
+		        dataatual=(lbBDDataAtualReceber.getText());
+		        dataentrada=(lbBDDataEntradaReceber.getText());
+		        anosempresa=(lbBDNumeroAnosEmpresaReceber.getText());
+		        salariott=(lbBDNovoSalarioReceber.getText());
+		        id=tfID.getText();
 				try {
 					Connection con=DriverManager.getConnection(  
 							"jdbc:mysql://localhost:3306/JavaBD","root","");
@@ -409,33 +555,17 @@ public class PAP_estudar implements ActionListener{
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				String nome,dataatual,dataentrada,salario,salariott,anosempresa;
-		        nome=(lbBDNomeReceber.getText());
-		        salario=(lbBDSalariosAtualReceber.getText());
-		        dataatual=(lbBDDataAtualReceber.getText());
-		        dataentrada=(lbBDDataEntradaReceber.getText());
-		        anosempresa=(lbBDNumeroAnosEmpresaReceber.getText());
-		        salariott=(lbBDNovoSalarioReceber.getText());
-		        
 		        
 		        try{  
 		    		Class.forName("com.mysql.jdbc.Driver");  
 		    		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaBD","root","");  
-		    		//here sonoo is database name, root is username and password is nothing 
-	    			JOptionPane.showMessageDialog(EUmaLinha,"Adicionado á Base de Dados");
+	    			JOptionPane.showMessageDialog(EUmaLinha,"Adicionado á Base de Dados"); //popup
 	    			Statement stmt=con.createStatement();  
 		    		String sql = "USE JavaBD;";
 		    		stmt.execute(sql);
-		    		stmt.execute("INSERT INTO empregados (NOME, SALARIO, DATA_DE_ENTRADA, DATA_DE_ATUAL, NUM_ANOS_EMPRESA, NOVO_SALARIO) VALUES ('"+nome+"','"+salario+"','"+dataentrada+"','"+dataatual+"','"+anosempresa+"','"+salariott+"')");
-		    		//stmt.execute("INSERT INTO empregados (NOME) VALUES ('"+nome+"')");
-		    		//stmt.execute("INSERT INTO empregados (SALARIO) VALUES ('"+salario+"')");
-		    		//stmt.execute("INSERT INTO empregados (DATA_DE_ENTRADA) VALUES ('"+dataatual+"')");
-		    		//stmt.execute("INSERT INTO empregados (DATA_DE_ATUAL) VALUES ('"+dataentrada+"')");
-		    		//stmt.execute("INSERT INTO empregados (NUM_ANOS_EMPRESA) VALUES ('"+anosempresa+"')");
-		    		//stmt.execute("INSERT INTO empregados (NOVO_SALARIO) VALUES ('"+salariott+"')");
+		    		stmt.execute("INSERT INTO empregados (ID, NOME, SALARIO, DATA_DE_ENTRADA, DATA_DE_ATUAL, NUM_ANOS_EMPRESA, NOVO_SALARIO) VALUES ('"+id+"','"+nome+"','"+salario+"','"+dataentrada+"','"+dataatual+"','"+anosempresa+"','"+salariott+"')");
 		    		con.close();  
 		     
-		    		
 		    		System.out.println("Ligação Efectuada com sucesso e dados adicionados.");
 		    		}catch(SQLException ee) {
 		    			System.out.println("SQLException: "+ee.getMessage());
@@ -447,6 +577,67 @@ public class PAP_estudar implements ActionListener{
 		    			System.out.println("Não foi possível ligar à base de dados.");
 		    			System.out.println("SQLException: "+ex.getMessage());
 		    		}
+		        tfApanharID.requestFocus();
+			}
+			
+			if(e.getSource()==btnVerRegisto){
+				JOptionPane.showMessageDialog(EUmaLinha,"Estes dados seram trazidos da Base de Dados");
+				String nome,dataatual,dataentrada,salario,salariott,anosempresa,id;
+		        nome=(lbBDNomeReceber.getText());
+		        salario=(lbBDSalariosAtualReceber.getText());
+		        dataatual=(lbBDDataAtualReceber.getText());
+		        dataentrada=(lbBDDataEntradaReceber.getText());
+		        anosempresa=(lbBDNumeroAnosEmpresaReceber.getText());
+		        salariott=(lbBDNovoSalarioReceber.getText());
+		        id=tfApanharID.getText();
+		        try {
+					Connection con=DriverManager.getConnection(  
+							"jdbc:mysql://localhost:3306/JavaBD","root","");
+										//ip:porta/nome da bd,pessoa,pass
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+		        try{  
+		        	
+		    		Class.forName("com.mysql.jdbc.Driver");  
+		    		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaBD","root","");  
+	    			JOptionPane.showMessageDialog(EUmaLinha,"A sua pesquisa foi feita com sucesso."); //popup
+	    			Statement stmt=con.createStatement();  
+		    		String sql = "USE JavaBD;";
+		    		stmt.execute(sql);
+		    		ResultSet arroz = stmt.executeQuery("SELECT * FROM `empregados` WHERE ID = '"+id+"';");
+		    		if(arroz.next()){
+		    			IDQuery = arroz.getString(1);
+		    			NOMEQuery = arroz.getString(2);
+		    			SALARIOQuery = arroz.getString(3);
+		    			DATA_DE_ENTRADAQuery = arroz.getString(4);
+		    			DATA_DE_ATUALQuery = arroz.getString(5);
+		    			NUM_ANOS_EMPRESAQuery = arroz.getString(6);
+		    			NOVO_SALARIOQuery = arroz.getString(7);
+		    		}
+		    		System.out.println( IDQuery + "|" +NOMEQuery+ "|" +SALARIOQuery+ "|" +DATA_DE_ENTRADAQuery+ "|" +DATA_DE_ATUALQuery+ "|" +NUM_ANOS_EMPRESAQuery+ "|" +NOVO_SALARIOQuery+ "");
+		    		lblMostrarNovoSalario.setText(NOVO_SALARIOQuery);
+		    		lblMostrarNumEmpresa.setText(NUM_ANOS_EMPRESAQuery);
+		    		lblMostrarDataAtual.setText(DATA_DE_ATUALQuery);
+		    		lblMostrarDataEntrada.setText(DATA_DE_ENTRADAQuery);
+		    		lblMostrarSalario.setText(SALARIOQuery);
+		    		lblMostrarNOME.setText(NOMEQuery);
+		    		lblMostrarID.setText(IDQuery);
+		    		con.close();  
+		    
+		    		System.out.println("Ligação Efectuada com sucesso e pesquisa feita.");
+		    		}catch(SQLException ee) {
+		    			System.out.println("SQLException: "+ee.getMessage());
+		    			System.out.println("SQLException: "+ee.getSQLState());
+		    			System.out.println("SQLException: "+ee.getErrorCode());
+		    			
+		    		}
+		    		catch(Exception ex) {
+		    			System.out.println("Não foi possível ligar à base de dados nem fazer a pesquisa.");
+		    			System.out.println("SQLException: "+ex.getMessage());
+		    	}
 			}
 		}
 	}
